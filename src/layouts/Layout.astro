@@ -16,7 +16,9 @@ const {
 
 // 언어 변경 시 현재 머물고 있는 하위 페이지 경로를 유지하는 함수
 const getPath = (targetLang: string) => {
-  return Astro.url.pathname.replace(/^\/(en|it|jp)(\/|$)/, `/${targetLang}/`);
+  const path = Astro.url.pathname;
+  if (path === '/' || path === '') return `/${targetLang}/`;
+  return path.replace(/^\/(en|it|jp)(\/|$)/, `/${targetLang}/`);
 };
 ---
 

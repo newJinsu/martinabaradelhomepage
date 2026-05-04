@@ -1,0 +1,182 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
+
+const content = {
+  en: {
+    title: "Martina Baradel | Criminologist & Japanese Studies Scholar",
+    subtitle: "Associate Professor, Nagoya University & Associate Member, University of Oxford",
+    bio: [
+      "I am Associate Professor at the Graduate School of Law, Nagoya University, and Associate Member of the Department of Sociology, University of Oxford.",
+      "My research sits at the intersection of criminology and Japanese studies, specialising in the yakuza, Japanese organised crime, and their transformation in contemporary Japan. I draw on ethnographic fieldwork and comparative sociological approaches, and my work has appeared in leading academic journals.",
+      "I am the author of 21st Century Yakuza: Death of Japanese Organised Crime (OUP, 2026) and Yakuza Blues (Rizzoli, 2025). I previously held a Marie Skłodowska-Curie Global Fellowship at the University of Oxford."
+    ],
+    welcome: "Criminologist & Japanese Studies Scholar"
+  },
+  it: {
+    title: "Martina Baradel | Criminologa e Studiosa di Studi Giapponesi",
+    subtitle: "Professoressa Associata, Nagoya University & Membro Associato, University of Oxford",
+    bio: [
+      "Sono Professoressa Associata presso la Graduate School of Law, Nagoya University, e Membro Associato del Dipartimento di Sociologia, University of Oxford.",
+      "La mia ricerca si colloca all'intersezione tra criminologia e studi giapponesi, specializzandomi nella yakuza, nella criminalità organizzata giapponese e nella loro trasformazione nel Giappone contemporaneo. Mi baso su ricerche etnografiche e approcci sociologici comparativi, e i miei lavori sono stati pubblicati su importanti riviste accademiche.",
+      "Sono autrice di 21st Century Yakuza: Death of Japanese Organised Crime (OUP, 2026) e Yakuza Blues (Rizzoli, 2025). In precedenza ho beneficiato di una Marie Skłodowska-Curie Global Fellowship presso l'Università di Oxford."
+    ],
+    welcome: "Criminologa e Studiosa di Studi Giapponesi"
+  },
+  jp: {
+    title: "マルティナ・バラデル | 犯罪学者・日本研究者",
+    subtitle: "名古屋大学大学院法学研究科 准教授 / オックスフォード大学社会学部 アソシエイト・メンバー",
+    bio: [
+      "名古屋大学大学院法学研究科で准教授を務め、オックスフォード大学社会学部のアソシエイト・メンバーでもあります。",
+      "私の研究は、犯罪学と日本研究の交差点に位置し、ヤクザ、日本の組織犯罪、そして現代日本におけるそれらの変容を専門としています。民族誌的フィールドワークと社会学の比較アプローチを活用し、主要な学術誌に論文を発表してきました。",
+      "著書に『21st Century Yakuza: Death of Japanese Organised Crime』（OUP、2026年）および『Yakuza Blues』（Rizzoli、2025年）があります。以前はオックスフォード大学でマリー・スクウォドフスカ＝キュリー・グローバル・フェローシップを獲得していました。"
+    ],
+    welcome: "犯罪学者・日本研究者"
+  }
+};
+
+const currentContent = content[lang as keyof typeof content];
+---
+
+<Layout title={currentContent.title} lang={lang || 'en'}>
+  <div class="hero container">
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1 class="text-accent">{currentContent.welcome}</h1>
+        <h2 style="margin-bottom: 2rem;">{currentContent.subtitle}</h2>
+        {currentContent.bio.map((paragraph) => <p style="margin-top: 1rem;">{paragraph}</p>)}
+      </div>
+      <div class="hero-photo">
+        <div class="photo-placeholder">
+          <img src="/images/profile/profile.jpg" alt="Martina Baradel" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="fallback-placeholder">Profile Photo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .hero {
+    display: flex;
+    align-items: center;
+    min-height: 60vh;
+  }
+  
+  .hero-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4rem;
+    width: 100%;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-text {
+    flex: 1;
+    min-width: 300px;
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+  
+  .hero-photo {
+    flex: 1;
+    max-width: 350px; /* Increased by ~10% */
+    display: flex;
+    justify-content: center;
+    position: relative;
+    animation: fadeInUp 0.8s ease-out 0.2s forwards;
+    opacity: 0;
+  }
+
+  .hero-photo::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 140%;
+    height: 140%;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, rgba(253, 251, 247, 0) 65%);
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .photo-placeholder {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    background-color: var(--color-header-bg);
+    border: 2px solid var(--color-accent);
+    box-shadow: 10px 10px 0px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .photo-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .fallback-placeholder {
+    display: none;
+    color: var(--color-accent);
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .hero h1 {
+    font-size: 2.7rem;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.5px;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  }
+  
+  .hero h2 {
+    font-size: 1.35rem;
+    color: var(--color-accent);
+    font-family: var(--font-sans);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  
+  .hero p {
+    font-size: 1.08rem;
+    margin-top: 1.5rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    .hero-content {
+      flex-direction: column-reverse;
+      gap: 2rem;
+      text-align: center;
+    }
+    
+    .hero-photo {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+</style>
